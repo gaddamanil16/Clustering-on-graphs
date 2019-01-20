@@ -17,8 +17,8 @@ min_users_per_bts = 2000
 #This number should be relative to the number of served users by BTS and its neighbors: *research point!
 min_com_users = 500
 #input file
+#Network data
 #IN_FILE = 'D:/Master Project/dataset/location/DPA_cellid_date_20170126.csv'
-IN_FILE = 'DPA_cellid_date_20170126.csv'
 #data type 
 float_type = np.float32
 
@@ -89,7 +89,7 @@ print('mode(s) of users in BTSs:', df_bts['ucount'].mode().values)
 print('Number of BTS with 1 user:', len(df_bts[df_bts['ucount'] == 1]))
 print('Number of large BTSs (more than', min_users_per_bts,'users):', len(large_bts))
 #%%
-#plt.plot(1)
+
 #ax = df_bts.ucount.hist(bins = 20)
 #plt.title('Distribution of number of users among BTSs')
 #plt.xlabel('number of users')
@@ -100,7 +100,6 @@ print('Number of large BTSs (more than', min_users_per_bts,'users):', len(large_
 #this is a time costly step, for total data set takes around 20 min in a PC with 32GB RAM and i7 
 def nx_graph(df, large_bts):
     B = nx.Graph()
-
     l = df.index
         
     for i in l:
@@ -153,10 +152,11 @@ with dir_model:
 #    approx = pm.fit(1000,method = inference)
 #    tr = approx.sample(1000)               
 #%%
+#Use MCMC sampling
 with dir_model:
     tr = pm.sample(200, chains = 1)
-#np.savetxt('/raid60/anil.gaddam/50clusters.csv',np.argmax(tr['dri'].mean(axis=0), axis = 0))
-np.savetxt('/raid60/anil.gaddam/100clusters.csv',np.argmax(tr['dri'].mean(axis=0), axis = 0))
+np.savetxt('/raid60/anil.gaddam/50clusters.csv',np.argmax(tr['dri'].mean(axis=0), axis = 0))
+
    
 
 
